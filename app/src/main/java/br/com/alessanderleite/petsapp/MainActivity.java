@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
     private List<Pets> petsList;
     ApiInterface apiInterface;
-    //Adapter.RecyclerViewClickListener listener;
+    Adapter.RecyclerViewClickListener listener;
     ProgressBar progressBar;
 
     @Override
@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 petsList = response.body();
                 Log.i(MainActivity.class.getSimpleName(), response.body().toString());
-                adapter = new Adapter(petsList, MainActivity.this);
+                adapter = new Adapter(petsList, MainActivity.this, listener);
                 recyclerView.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
