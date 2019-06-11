@@ -1,10 +1,16 @@
 package br.com.alessanderleite.petsapp;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -21,38 +27,65 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private Adapter adapter;
     private List<Pets> petsList;
+    ApiInterface apiInterface;
+    //Adapter.RecyclerViewClickListener listener;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadJson();
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+
+        progressBar = findViewById(R.id.progress);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, EditorActivity.class));
+            }
+        });
+    } //finish onCreate()
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void loadJson() {
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+    public void getPets() {
+
         Call<List<Pets>> call = apiInterface.getPets();
         call.enqueue(new Callback<List<Pets>>() {
             @Override
             public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
+                progressBar.setVisibility(View.GONE);
                 petsList = response.body();
-                getRecylerView();
+                Log.i(MainActivity.class.getSimpleName(), response.body().toString());
+                adapter = new Adapter(petsList, MainActivity.this);
+                recyclerView.setAdapter(adapter);
+                //adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<Pets>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "rp :" + t.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
 
-    private void getRecylerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new Adapter(petsList, this);
-        recyclerView.setAdapter(adapter);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPets();
     }
 }
