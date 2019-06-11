@@ -19,6 +19,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     List<Pets> pets;
     private Context context;
 
+    public Adapter(List<Pets> pets, Context context) {
+        this.pets = pets;
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
