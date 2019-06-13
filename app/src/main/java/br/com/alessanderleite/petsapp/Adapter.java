@@ -11,10 +11,15 @@ import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.alessanderleite.petsapp.model.Pet;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implements Filterable {
 
@@ -41,7 +46,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     public void onBindViewHolder(@NonNull Adapter.MyViewHolder holder, int position) {
 
         holder.mName.setText(pets.get(position).getName());
-        holder.mType.setText(pets.get(position).getSpecies());
+        holder.mType.setText(pets.get(position).getBreed() + " / " + pets.get(position).getSpecies());
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.skipMemoryCache(true);
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+        requestOptions.placeholder(R.drawable.logo);
+        requestOptions.error(R.drawable.logo);
+
+        Glide.with(context)
+                .load(pets.get(position).getPicture())
+                .apply(requestOptions)
+                .into(holder.mPicture);
     }
 
     @Override
@@ -60,12 +76,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private RecyclerViewClickListener mListener;
+        private CircleImageView mPicture;
         private TextView mName, mType;
         private RelativeLayout mRowContainer;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewClickListener listener) {
             super(itemView);
 
+            mPicture = (CircleImageView) itemView.findViewById(R.id.picture);
             mName = (TextView) itemView.findViewById(R.id.name);
             mType = (TextView) itemView.findViewById(R.id.type);
             mRowContainer = (RelativeLayout) itemView.findViewById(R.id.row_container);
