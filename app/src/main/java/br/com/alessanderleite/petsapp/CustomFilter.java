@@ -4,14 +4,14 @@ import android.widget.Filter;
 
 import java.util.ArrayList;
 
-import br.com.alessanderleite.petsapp.model.Pets;
+import br.com.alessanderleite.petsapp.model.Pet;
 
 public class CustomFilter extends Filter {
 
     Adapter adapter;
-    ArrayList<Pets> filterList;
+    ArrayList<Pet> filterList;
 
-    public CustomFilter(ArrayList<Pets> filterList, Adapter adapter) {
+    public CustomFilter(ArrayList<Pet> filterList, Adapter adapter) {
         this.adapter = adapter;
         this.filterList = filterList;
     }
@@ -25,7 +25,7 @@ public class CustomFilter extends Filter {
             //change to upper
             constraint = constraint.toString().toUpperCase();
             //store our filtered players
-            ArrayList<Pets> filteredPets = new ArrayList<>();
+            ArrayList<Pet> filteredPets = new ArrayList<>();
 
             for (int i = 0; i < filterList.size(); i++) {
 
@@ -49,7 +49,7 @@ public class CustomFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
 
-        adapter.pets = (ArrayList<Pets>) results.values;
+        adapter.pets = (ArrayList<Pet>) results.values;
 
         //refresh
         adapter.notifyDataSetChanged();

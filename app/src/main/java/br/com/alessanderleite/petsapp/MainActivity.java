@@ -20,7 +20,7 @@ import java.util.List;
 
 import br.com.alessanderleite.petsapp.api.ApiClient;
 import br.com.alessanderleite.petsapp.api.ApiInterface;
-import br.com.alessanderleite.petsapp.model.Pets;
+import br.com.alessanderleite.petsapp.model.Pet;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private Adapter adapter;
-    private List<Pets> petsList;
+    private List<Pet> petList;
     ApiInterface apiInterface;
     Adapter.RecyclerViewClickListener listener;
     ProgressBar progressBar;
@@ -104,20 +104,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void getPets() {
 
-        Call<List<Pets>> call = apiInterface.getPets();
-        call.enqueue(new Callback<List<Pets>>() {
+        Call<List<Pet>> call = apiInterface.getPets();
+        call.enqueue(new Callback<List<Pet>>() {
             @Override
-            public void onResponse(Call<List<Pets>> call, Response<List<Pets>> response) {
+            public void onResponse(Call<List<Pet>> call, Response<List<Pet>> response) {
                 progressBar.setVisibility(View.GONE);
-                petsList = response.body();
+                petList = response.body();
                 Log.i(MainActivity.class.getSimpleName(), response.body().toString());
-                adapter = new Adapter(petsList, MainActivity.this, listener);
+                adapter = new Adapter(petList, MainActivity.this, listener);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<Pets>> call, Throwable t) {
+            public void onFailure(Call<List<Pet>> call, Throwable t) {
 
             }
         });

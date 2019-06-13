@@ -8,25 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.alessanderleite.petsapp.model.Pets;
+import br.com.alessanderleite.petsapp.model.Pet;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implements Filterable {
 
-    List<Pets> pets, petsFilter;
+    List<Pet> pets, petFilter;
     private Context context;
     private RecyclerViewClickListener mListener;
     CustomFilter filter;
 
-    public Adapter(List<Pets> pets, Context context, RecyclerViewClickListener listener) {
+    public Adapter(List<Pet> pets, Context context, RecyclerViewClickListener listener) {
         this.pets = pets;
-        this.petsFilter = pets;
+        this.petFilter = pets;
         this.context = context;
         this.mListener = listener;
     }
@@ -53,7 +52,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
     @Override
     public Filter getFilter() {
         if (filter == null) {
-            filter = new CustomFilter((ArrayList<Pets>) petsFilter, this);
+            filter = new CustomFilter((ArrayList<Pet>) petFilter, this);
         }
         return filter;
     }
