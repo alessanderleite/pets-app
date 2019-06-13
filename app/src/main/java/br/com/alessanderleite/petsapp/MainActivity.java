@@ -48,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        listener = new Adapter.RecyclerViewClickListener() {
+            @Override
+            public void onRowClick(View view, int position) {
+
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                intent.putExtra("id", petList.get(position).getPetId());
+                intent.putExtra("name", petList.get(position).getName());
+                intent.putExtra("species", petList.get(position).getSpecies());
+                intent.putExtra("breed", petList.get(position).getBreed());
+                intent.putExtra("picture", petList.get(position).getPicture());
+                startActivity(intent);
+            }
+        };
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
