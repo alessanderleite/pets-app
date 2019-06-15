@@ -8,18 +8,19 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
     @GET("/pets")
     Call<List<Pet>> getPets();
 
-    @POST("/create")
+    @POST("/pets/create")
     @FormUrlEncoded
     Call<Pet> insertPet(
-            @Field("key") String key,
-            @Field("name") String name,
-            @Field("species") String species,
-            @Field("breed") String breed
+//            @Field("key") String key,
+            @Query("name") String name,
+            @Query("species") String species,
+            @Query("breed") String breed
     );
 }

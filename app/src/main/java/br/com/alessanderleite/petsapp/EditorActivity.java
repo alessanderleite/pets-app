@@ -128,7 +128,8 @@ public class EditorActivity extends AppCompatActivity {
 
                     else {
 
-                        postData("insert");
+//                        postData("insert");
+                        postData();
                         action.findItem(R.id.menu_edit).setVisible(true);
                         action.findItem(R.id.menu_save).setVisible(false);
                         action.findItem(R.id.menu_delete).setVisible(true);
@@ -143,7 +144,7 @@ public class EditorActivity extends AppCompatActivity {
         return true;
     }
 
-    private void postData(final String key) {
+    private void postData() {
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Saving...");
@@ -157,7 +158,7 @@ public class EditorActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<Pet> call = apiInterface.insertPet(key, name, species, breed);
+        Call<Pet> call = apiInterface.insertPet(name, species, breed);
 
         call.enqueue(new Callback<Pet>() {
             @Override
@@ -166,7 +167,7 @@ public class EditorActivity extends AppCompatActivity {
 
                 Log.i(EditorActivity.class.getSimpleName(), response.toString());
 
-                response.body();
+//                response.body();
             }
 
             @Override

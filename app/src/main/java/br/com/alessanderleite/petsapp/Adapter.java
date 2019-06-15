@@ -54,10 +54,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> implemen
         requestOptions.placeholder(R.drawable.logo);
         requestOptions.error(R.drawable.logo);
 
-        Glide.with(context)
-                .load(pets.get(position).getPicture())
-                .apply(requestOptions)
-                .into(holder.mPicture);
     }
 
     @Override

@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("name", petList.get(position).getName());
                 intent.putExtra("species", petList.get(position).getSpecies());
                 intent.putExtra("breed", petList.get(position).getBreed());
-                intent.putExtra("picture", petList.get(position).getPicture());
                 startActivity(intent);
             }
         };

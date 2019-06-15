@@ -17,9 +17,6 @@ public class Pet {
     @SerializedName("breed")
     @Expose
     private String breed;
-    @SerializedName("picture")
-    @Expose
-    private String picture;
 
     public Integer getPetId() {
         return petId;
@@ -52,13 +49,4 @@ public class Pet {
     public void setBreed(String breed) {
         this.breed = breed;
     }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
 }
