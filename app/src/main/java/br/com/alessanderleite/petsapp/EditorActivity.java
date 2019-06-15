@@ -13,6 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import br.com.alessanderleite.petsapp.api.ApiClient;
 import br.com.alessanderleite.petsapp.api.ApiInterface;
@@ -59,11 +63,18 @@ public class EditorActivity extends AppCompatActivity {
 
         if (id != 0) {
 
+            readMode();
             getSupportActionBar().setTitle("Edit " + name.toString());
 
             mName.setText(name);
             mSpecies.setText(species);
             mBreed.setText(breed);
+
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.skipMemoryCache(true);
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+            requestOptions.placeholder(R.drawable.logo);
+            requestOptions.error(R.drawable.logo);
 
         } else  {
             getSupportActionBar().setTitle("Add a Pet");
@@ -126,6 +137,8 @@ public class EditorActivity extends AppCompatActivity {
                     }
 
                 }
+
+                return true;
         }
         return true;
     }
@@ -158,7 +171,7 @@ public class EditorActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Pet> call, Throwable t) {
-
+                Toast.makeText(EditorActivity.this, t.getMessage().toString(), Toast.LENGTH_LONG).show();
             }
         });
 
