@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Pet>> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this, "response: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
