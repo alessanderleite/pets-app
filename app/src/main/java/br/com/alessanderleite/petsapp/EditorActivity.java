@@ -40,11 +40,13 @@ public class EditorActivity extends AppCompatActivity {
 
         mName = findViewById(R.id.name);
         mSpecies = findViewById(R.id.species);
+        mBreed = findViewById(R.id.breed);
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         name = intent.getStringExtra("name");
         species = intent.getStringExtra("species");
+        breed = intent.getStringExtra("breed");
 
         setDataFromIntentExtra();
     }
@@ -57,6 +59,7 @@ public class EditorActivity extends AppCompatActivity {
 
             mName.setText(name);
             mSpecies.setText(species);
+            mBreed.setText(breed);
 
         } else  {
             getSupportActionBar().setTitle("Add a Pet");
@@ -100,7 +103,7 @@ public class EditorActivity extends AppCompatActivity {
             public void onResponse(Call<Pet> call, Response<Pet> response) {
                 progressDialog.dismiss();
 
-                Log.i(EditorActivity.class.getSimpleName(), response.body());
+                Log.i(EditorActivity.class.getSimpleName(), response.toString());
 
                 response.body();
             }
