@@ -1,13 +1,17 @@
 package br.com.alessanderleite.petsapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import br.com.alessanderleite.petsapp.api.ApiClient;
@@ -78,6 +82,50 @@ public class EditorActivity extends AppCompatActivity {
             action.findItem(R.id.menu_edit).setVisible(false);
             action.findItem(R.id.menu_delete).setVisible(false);
             action.findItem(R.id.menu_save).setVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                this.finish();
+
+                return true;
+
+            case R.id.menu_edit:
+                //Edit
+            case R.id.menu_save:
+                //Save
+
+                if (id == 0) {
+                    if (TextUtils.isEmpty(mName.getText().toString()) ||
+                            TextUtils.isEmpty(mSpecies.getText().toString()) ||
+                            TextUtils.isEmpty(mBreed.getText())) {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                        alertDialog.setMessage("Please complete the field!");
+                        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    }
+
+                    else {
+
+                        postData("insert");
+                        action.findItem(R.id.menu_edit).setVisible(true);
+                        action.findItem(R.id.menu_save).setVisible(false);
+                        action.findItem(R.id.menu_delete).setVisible(true);
+
+                        readMode();
+                    }
+
+                }
         }
         return true;
     }
